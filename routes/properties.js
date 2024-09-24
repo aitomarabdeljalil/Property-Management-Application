@@ -1,23 +1,28 @@
 import express from 'express';
+import Property from '../models/Property';
 const router = express.Router();
 
 //endpoints 
 //PROPERTY
 /*
-    property; name, address, type, nbr of units, rental_cost
+    property; name, address, type, numberOfUnits, rentalCost
 */
 
 
-let properties = [
-    {id: 1, name: "one", address: "khouribga", type: "apartment", nbr_of_units: 12, rental_cost: 40000},
-    {id: 2, name: "two", address: "khouribga", type: "house", nbr_of_units: 6, rental_cost: 30000},
-    {id: 3, name: "three", address: "khouribga", type: "apartment", nbr_of_units: 3, rental_cost: 10000}
-];
+// let properties = [
+//     {id: 1, name: "one", address: "khouribga", type: "apartment", numberOfUnits: 12, rentalCost: 40000},
+//     {id: 2, name: "two", address: "Marrakech", type: "house", numberOfUnits: 6, rentalCost: 30000},
+//     {id: 3, name: "three", address: "khouribga", type: "apartment", numberOfUnits: 3, rentalCost: 10000}
+// ];
 
 
-
-router.get('/', (req, res) => {
-    res.json(properties);
+router.get('/', async (req, res) => {
+    try {
+        const properties = await Property.findAll();
+        res.json(properties);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch properties' });
+    }
 });
 
 //get single property
@@ -34,8 +39,30 @@ router.get('/:id', (req, res) => {
     }
 });
 
+//Create a Property
+router.post('/', async (req, res) => {
+    const newProperty = {
+        name: req.body.name,
+        address: req.body.address,
+        type: req.body.type,
+        numberOfUnits: req.body.numberOfUnits,
+        rentalCost: req.body.rentalCost
+    };
 
-router.post('/', (req, res) => {
+    try{
+        await Property.create(newProperty);
+        res.status(201).json(properties);
+    } catch (error) {
+        return res.status(400).json({ error: 'Failed to add property'});
+    }
+
+    // const values = Object.values(newProperty);
+    // for (let value of values) {
+    //     if (value.length < 1)
+    //         return res.status(400).json(properties);
+    // }
+    // properties.push(newProperty);
+    // res.status(201).json(properties);
 
 });
 
