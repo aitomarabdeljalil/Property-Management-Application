@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
         const newTenant = await Tenant.create(req.body);
         res.status(201).json(newTenant);
     } catch (error) {
-        return res.status(400).json({ error: 'Failed to add property'});
+        return res.status(400).json({ error: 'Failed to add tenant'});
     }
 });
 
