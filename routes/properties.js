@@ -1,5 +1,5 @@
 import express from 'express';
-import Property from '../models/Property';
+import Property from '../models/Property.js';
 const router = express.Router();
 
 //endpoints 
@@ -15,7 +15,7 @@ const router = express.Router();
 //     {id: 3, name: "three", address: "khouribga", type: "apartment", numberOfUnits: 3, rentalCost: 10000}
 // ];
 
-
+//Get All Properties
 router.get('/', async (req, res) => {
     try {
         const properties = await Property.findAll();
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-//get single property
+//Get Single Property
 router.get('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     let property = null;
@@ -39,31 +39,14 @@ router.get('/:id', (req, res) => {
     }
 });
 
-//Create a Property
-router.post('/', async (req, res) => {
-    const newProperty = {
-        name: req.body.name,
-        address: req.body.address,
-        type: req.body.type,
-        numberOfUnits: req.body.numberOfUnits,
-        rentalCost: req.body.rentalCost
-    };
-
+//Add a Property
+router.post('/', async (req, res) => {    
     try{
-        await Property.create(newProperty);
-        res.status(201).json(properties);
+        const newProperty = await Property.create(req.body);
+        res.status(201).json(newProperty);
     } catch (error) {
         return res.status(400).json({ error: 'Failed to add property'});
     }
-
-    // const values = Object.values(newProperty);
-    // for (let value of values) {
-    //     if (value.length < 1)
-    //         return res.status(400).json(properties);
-    // }
-    // properties.push(newProperty);
-    // res.status(201).json(properties);
-
 });
 
 export default router;

@@ -1,10 +1,11 @@
 import { Model, DataTypes } from 'sequelize';
+import Property from './Property.js';
 import sequelize from '../db.js';
 
 
-class Property extends Model {}
-// Define the Property model
-Property.init({
+class Tenant extends Model {}
+// Define the Tenant model
+Tenant.init({
     // Define columns and their types
     id: {
         type: DataTypes.INTEGER,
@@ -14,21 +15,18 @@ Property.init({
     name: {
         type: DataTypes.STRING,
     },
-    address: {
+    contact: {
         type: DataTypes.STRING,
     },
-    type: {
+    sectionOccupied: {
         type: DataTypes.STRING,
-    },
-    numberOfUnits: {
-        type: DataTypes.INTEGER,  
-    },
-    rentalCost: {
-        type: DataTypes.FLOAT,
     },
 }, {
     sequelize,
-    modelName: 'property'
+    modelName: 'tenant'
 })
 
-export default Property;
+Tenant.belongsTo(Property, { foreignKey: 'propertyId' });
+Property.hasMany(Tenant, { foreignKey: 'propertyId' });
+
+export default Tenant;
