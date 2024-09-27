@@ -89,7 +89,7 @@ The API uses **SQLite** for local development by default. If you wish to use ano
 
 ### 1. **Properties**
 
-- **Create Property**: `POST /properties`
+- **Create Property**: `POST /api/properties`
   
   Request body:
 
@@ -103,11 +103,11 @@ The API uses **SQLite** for local development by default. If you wish to use ano
   }
   ```
 
-- **Get Properties**: `GET /properties`
+- **Get Properties**: `GET /api/properties`
 
 ### 2. **Tenants**
 
-- **Create Tenant**: `POST /tenants`
+- **Create Tenant**: `POST /api/tenants`
 
   Request body:
 
@@ -120,13 +120,13 @@ The API uses **SQLite** for local development by default. If you wish to use ano
   }
   ```
 
-- **Update Tenant**: `PUT /tenants/:id`
+- **Update Tenant**: `PUT /api/tenants/:id`
 
-- **Delete Tenant**: `DELETE /tenants/:id`
+- **Delete Tenant**: `DELETE /api/tenants/:id`
 
 ### 3. **Payments**
 
-- **Create Payment**: `POST /:tenantId/paymants`
+- **Create Payment**: `POST /api/tenants/:tenantId/paymants`
 
   Request body:
 
@@ -139,7 +139,7 @@ The API uses **SQLite** for local development by default. If you wish to use ano
   }
   ```
 
-- **Update Payment**: `PUT /:tenantId/paymants`
+- **Update Payment**: `PUT /api/tenants/:tenantId/paymants`
 
 ---
 
@@ -158,7 +158,7 @@ The API is secured using **JWT (JSON Web Tokens)**. To perform any CRUD operatio
    }
    ```
 
-2. **Login User**: `POST api/auth/login`
+2. **Login User**: `POST /api/auth/login`
 
    Request body:
 
