@@ -19,7 +19,6 @@ This is a RESTful API built with **Node.js** and **Express** for managing proper
 - [Database Setup](#database-setup)
 - [API Documentation](#api-documentation)
 - [Authentication](#authentication)
-- [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
 
