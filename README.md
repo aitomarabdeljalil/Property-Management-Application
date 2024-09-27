@@ -1,17 +1,14 @@
 
 # Property Management API
 
-This is a RESTful API built with **Node.js** and **Express** for managing properties, tenants, rental payments, and notifications. The API includes JWT-based authentication, filtering and sorting capabilities for properties, and automated notifications for due payments. Data is stored using **SQLite** or any relational database of your choice, and unit tests are implemented using **Jest** and **Supertest**.
+This is a RESTful API built with **Node.js** and **Express** for managing properties, tenants, rental payments, and notifications. The API includes JWT-based authentication, filtering and sorting capabilities for properties, and automated notifications for due payments. Data is stored using **SQLite** or any relational database of your choice.
 
 ## Features
 
 - **CRUD operations** for properties and tenants.
 - **Rental Payments Monitoring**: Manage payments with the ability to track settled or unsettled payments.
-- **Property Filtering & Sorting**: Filter and sort properties by location, rental price, and type.
-- **Automated Due Payment Notifications**: Mock email notifications for overdue rental payments.
 - **JWT Authentication**: Secure API endpoints with JSON Web Tokens.
-- **Data Persistence**: Stores data in SQLite (or any other relational database).
-- **Unit Testing**: Tests for critical parts of the API using Jest and Supertest.
+- **Data Persistence**: Stores data in SQLite.
 
 ---
 
@@ -33,13 +30,13 @@ This is a RESTful API built with **Node.js** and **Express** for managing proper
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/property-management-api.git
+   git clone https://github.com/aitomarabdeljalil/Property-Management-Application.git
    ```
 
 2. Navigate into the project directory:
 
    ```bash
-   cd property-management-api
+   cd Property-Management-Application
    ```
 
 3. Install dependencies:
@@ -57,11 +54,14 @@ This is a RESTful API built with **Node.js** and **Express** for managing proper
 Create a `.env` file in the root directory of your project with the following variables:
 
 ```bash
-# JWT Secret Key
+# JWT Secret Key (you can generate a key using require('crypto').randomBytes(64).toString('hex'))
 SECRET_KEY=your_jwt_secret
 
-# Optional database configuration (use SQLite or other relational DB)
+# Optional database configuration (use SQLite)
 DATABASE_URL=sqlite:./database.sqlite
+
+# PORT
+PORT=3000
 ```
 
 ---
@@ -104,18 +104,7 @@ The API uses **SQLite** for local development by default. If you wish to use ano
   }
   ```
 
-- **Get Properties (with filtering and sorting)**: `GET /properties`
-
-  Query parameters:
-  - `location`: Filter by address.
-  - `minPrice` and `maxPrice`: Filter by rental price range.
-  - `type`: Filter by property type (e.g., apartment or house).
-  - `sortBy`: Field to sort by (e.g., `rentalCost`).
-  - `order`: Sorting order (`ASC` or `DESC`).
-
-- **Update Property**: `PUT /properties/:id`
-
-- **Delete Property**: `DELETE /properties/:id`
+- **Get Properties**: `GET /properties`
 
 ### 2. **Tenants**
 
@@ -138,7 +127,7 @@ The API uses **SQLite** for local development by default. If you wish to use ano
 
 ### 3. **Payments**
 
-- **Create Payment**: `POST /payments`
+- **Create Payment**: `POST /:tenantId/paymants`
 
   Request body:
 
@@ -151,7 +140,7 @@ The API uses **SQLite** for local development by default. If you wish to use ano
   }
   ```
 
-- **Check for Due Payments and Send Notifications**: `POST /payments/check-due-payments`
+- **Update Payment**: `PUT /:tenantId/paymants`
 
 ---
 
@@ -159,7 +148,7 @@ The API uses **SQLite** for local development by default. If you wish to use ano
 
 The API is secured using **JWT (JSON Web Tokens)**. To perform any CRUD operations, users must be authenticated.
 
-1. **Register User**: `POST /auth/register`
+1. **Register User**: `POST /api/auth/register`
   
    Request body:
 
@@ -170,7 +159,7 @@ The API is secured using **JWT (JSON Web Tokens)**. To perform any CRUD operatio
    }
    ```
 
-2. **Login User**: `POST /auth/login`
+2. **Login User**: `POST api/auth/login`
 
    Request body:
 
@@ -185,33 +174,6 @@ The API is secured using **JWT (JSON Web Tokens)**. To perform any CRUD operatio
 
    ```
    Authorization: Bearer your_jwt_token
-   ```
-
----
-
-## Testing
-
-Unit tests are implemented using **Jest** and **Supertest** to test API endpoints and critical logic.
-
-1. To run the tests, execute:
-
-   ```bash
-   npm test
-   ```
-
-2. Example test for properties route (`tests/propertyRoutes.test.js`):
-
-   ```javascript
-   const request = require('supertest');
-   const app = require('../app');
-
-   describe('Property API', () => {
-     it('should fetch all properties', async () => {
-       const response = await request(app).get('/properties');
-       expect(response.statusCode).toBe(200);
-       expect(response.body).toBeInstanceOf(Array);
-     });
-   });
    ```
 
 ---
@@ -238,7 +200,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Express** for the server framework.
 - **Sequelize** ORM for database management.
-- **Jest** and **Supertest** for testing.
 
 ---
 
