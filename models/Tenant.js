@@ -14,12 +14,15 @@ Tenant.init({
     },
     name: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     contact: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     sectionOccupied: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
 }, {
     sequelize,

@@ -13,13 +13,17 @@ Payment.init({
     },
     amount: {
         type: DataTypes.FLOAT,
+        allowNull: false,
     },
     datePaid: {
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        allowNull: false,
     },
     isSettled: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+        allowNull: false,
     },
 }, {
     sequelize,

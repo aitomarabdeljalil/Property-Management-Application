@@ -114,9 +114,9 @@ The API uses **SQLite** for local development by default. If you wish to use ano
   ```json
   {
     "name": "John Doe",
-    "contactDetails": "john@example.com",
-    "propertyId": 1,
-    "unit": "A-101"
+    "contact": "john@example.com",
+    "sectionOccupied": "A-101",
+    "propertyId": 1
   }
   ```
 
@@ -174,6 +174,50 @@ The API is secured using **JWT (JSON Web Tokens)**. To perform any CRUD operatio
    ```
    Authorization: Bearer your_jwt_token
    ```
+
+---
+
+## Testing
+
+Unit tests are implemented using Jest and Supertest to test API endpoints and critical logic.
+
+1. To run the tests, execute:
+
+```bash
+npm test
+```
+
+2. Example test for properties route (`tests/api.test.js`):
+
+```javascript
+const request = require('supertest');
+const app = require('../app');
+
+describe("Property API", () => {
+  it("should return a list of properties", async () => {
+    const res = await request(app)
+      .get("/api/properties")
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBeInstanceOf(Array);
+  });
+
+  it("should create a new property", async () => {
+    const res = await request(app)
+      .post("/api/properties")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name: "test property",
+        address: "123 Sunshine Ave",
+        type: "Apartment",
+        numberOfUnits: 10,
+        rentalCost: 1200,
+      });
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toHaveProperty("name", "test property");
+  });
+});
+```
 
 ---
 

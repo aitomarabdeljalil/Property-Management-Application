@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
+require('dotenv').config();
 
 const KEY = process.env.SECRET_KEY;
 
 //JWT authentication 
 const authenticateJWT = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
-
     if (!token)
         return res.status(403).json({ error: 'No token provided, access denied' });
     

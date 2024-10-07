@@ -7,7 +7,6 @@ import auth from './routes/auth.js';
 import authenticateJWT from './middleware/auth.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 //body parser middleware
 app.use(express.json());
@@ -19,15 +18,7 @@ app.use('/api/auth', auth);
 //Routes
 app.use('/api/properties', authenticateJWT, properties);
 app.use('/api/tenants', authenticateJWT, tenants);
-app.use('/api/tenants', authenticateJWT, payments);
+app.use('/api/payments', authenticateJWT, payments);
 
-// Sync database and start server
-sequelize.sync().then(() => {
-        console.log('Database synchronized');
-        app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    });
-    }).catch((err) => { 
-        console.error('Failed to sync database:', err); 
-    }
-);
+
+module.exports = app;

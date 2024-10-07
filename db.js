@@ -4,7 +4,8 @@ import { Sequelize } from 'sequelize';
 // Initialize SQLite database
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: process.env.PORT
+  storage: process.env.DATABASE,
+  logging: false
 });
 
-export default sequelize;
+module.exports = sequelize;

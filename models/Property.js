@@ -13,18 +13,23 @@ Property.init({
     },
     name: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     address: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     type: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     numberOfUnits: {
-        type: DataTypes.INTEGER,  
+        type: DataTypes.INTEGER,
+        allowNull: false,  
     },
     rentalCost: {
         type: DataTypes.FLOAT,
+        allowNull: false,
     },
 }, {
     sequelize,
