@@ -4,6 +4,28 @@ const router = express.Router();
 
 //Endpoints
 
+//List of all tenants
+router.get("/", async (req, res) => {
+  try {
+    const tenants = await Tenant.findAll();
+    return res.status(200).json(tenants);
+  } catch (error) {
+    return res.status(400).json({ error: "Failed to get tenants" });
+  }
+});
+
+//Get a tenant
+router.get("/:id", async (req, res) => {
+  try {
+    const tenantId = parseInt(req.params.id);
+    const tenant = await Tenant.findByPk(tenantId);
+    if (!tenant) return res.status(404).json({ error: "Tenant not found" });
+    return res.status(200).json(tenant);
+  } catch (error) {
+    return res.status(400).json({ error: "Failed to get tenant"});
+  }
+});
+
 //Add a tenant
 router.post("/", async (req, res) => {
   try {
@@ -16,12 +38,11 @@ router.post("/", async (req, res) => {
 
 //Update a tenant
 router.put("/:id", async (req, res) => {
-  const tid = parseInt(req.params.id);
+  const tenantId = parseInt(req.params.id);
   const updatedTenant = req.body;
   try {
-    const tenant = await Tenant.findByPk(tid);
+    const tenant = await Tenant.findByPk(tenantId);
     if (!tenant) return res.status(404).json({ error: "Tenant not found" });
-    console.log("************************",tenant);
     await Tenant.update(
       {
         name: updatedTenant.name,
@@ -31,13 +52,12 @@ router.put("/:id", async (req, res) => {
       },
       {
         where: {
-          id: tid,
+          id: tenantId,
         },
       }
     );
-    res.status(201).json(updatedTenant);
+    res.status(204).json(updatedTenant);
   } catch (error) {
-    console.log("##################",error);
     return res
       .status(400)
       .json({ error: "Failed to modify tenant or the tenant doesn't exist" });
@@ -46,10 +66,10 @@ router.put("/:id", async (req, res) => {
 
 //Delete a tenant
 router.delete("/:id", async (req, res) => {
-  const tid = parseInt(req.params.id);
+  const tenantId = parseInt(req.params.id);
   try {
     await Tenant.destroy({
-      where: { id: tid },
+      where: { id: tenantId },
     });
     res.status(201).json({});
   } catch (error) {
